@@ -1,0 +1,18 @@
+apiVersion: mutations.gatekeeper.sh/v1alpha1
+kind: Assign
+metadata:
+  name: argo-workflows-init-runas
+spec:
+  applyTo:
+  - groups: [""]
+    kinds: ["Pod"]
+    versions: ["v1"]
+  match:
+    labelSelector:
+      matchExpressions:
+        - key: workflows.argoproj.io/workflow
+          operator: Exists
+  location: "spec.initContainers[name:init].securityContext.runAsUser"
+  parameters:
+    assign:
+      value: 1337

@@ -1,0 +1,16 @@
+apiVersion: mutations.gatekeeper.sh/v1
+kind: AssignMetadata
+metadata:
+  name: solution-metadata-label
+spec:
+  match:
+    kinds:
+      - apiGroups: ["*"]
+        kinds: ["Pod"]
+    namespaceSelector:
+      matchLabels:
+        namespace.ssc-spc.gc.ca/purpose: solution
+  location: 'metadata.labels."namespace.ssc-spc.gc.ca/purpose"'
+  parameters:
+    assign:
+      value: "solution"

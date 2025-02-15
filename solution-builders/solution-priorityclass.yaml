@@ -1,0 +1,65 @@
+apiVersion: mutations.gatekeeper.sh/v1
+kind: Assign
+metadata:
+  name: solution-priorityclass-business-value-medium
+spec:
+  applyTo:
+    - groups: ["apps"]
+      kinds: ["Deployment"]
+      versions: ["v1"]
+    - groups: ["apps"]
+      kinds: ["StatefulSet"]
+      versions: ["v1"]
+    - groups: ["batch"]
+      kinds: ["Job"]
+      versions: ["v1"]
+  match:
+    scope: Namespaced
+    kinds:
+      - apiGroups: ["apps"]
+        kinds: ["Deployment"]
+      - apiGroups: ["apps"]
+        kinds: ["StatefulSet"]
+      - apiGroups: ["batch"]
+        kinds: ["Job"]
+    namespaceSelector:
+      matchLabels:
+        namespace.ssc-spc.gc.ca/purpose: solution
+        project.ssc-spc.gc.ca/priority: medium
+  location: 'spec.template.spec.priorityClassName'
+  parameters:
+    assign:
+      value: "business-value-medium"
+---
+apiVersion: mutations.gatekeeper.sh/v1
+kind: Assign
+metadata:
+  name: solution-priorityclass-business-value-critical
+spec:
+  applyTo:
+    - groups: ["apps"]
+      kinds: ["Deployment"]
+      versions: ["v1"]
+    - groups: ["apps"]
+      kinds: ["StatefulSet"]
+      versions: ["v1"]
+    - groups: ["batch"]
+      kinds: ["Job"]
+      versions: ["v1"]
+  match:
+    scope: Namespaced
+    kinds:
+      - apiGroups: ["apps"]
+        kinds: ["Deployment"]
+      - apiGroups: ["apps"]
+        kinds: ["StatefulSet"]
+      - apiGroups: ["batch"]
+        kinds: ["Job"]
+    namespaceSelector:
+      matchLabels:
+        namespace.ssc-spc.gc.ca/purpose: solution
+        project.ssc-spc.gc.ca/priority: critical
+  location: 'spec.template.spec.priorityClassName'
+  parameters:
+    assign:
+      value: "business-value-critical"

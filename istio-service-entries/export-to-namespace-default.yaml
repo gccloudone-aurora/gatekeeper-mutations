@@ -1,0 +1,18 @@
+apiVersion: mutations.gatekeeper.sh/v1
+kind: Assign
+metadata:
+  name: service-entry-export-to-own-namespace
+spec:
+  applyTo:
+  - groups: ["networking.istio.io"]
+    kinds: ["ServiceEntry"]
+    versions: ["v1beta1"]
+  match:
+    scope: Namespaced
+    kinds:
+    - apiGroups: ["*"]
+      kinds: ["ServiceEntry"]
+  location: "spec.exportTo"
+  parameters:
+    assign:
+      value: ["."]

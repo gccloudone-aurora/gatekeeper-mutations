@@ -1,0 +1,43 @@
+apiVersion: mutations.gatekeeper.sh/v1beta1
+kind: Assign
+metadata:
+  name: argo-pool-nodepool-toleration
+  namespace: gatekeeper-system
+spec:
+  applyTo:
+    - groups: [""]
+      kinds: ["Pod"]
+      versions: ["v1"]
+  match:
+    labelSelector:
+      matchExpressions:
+        - key: workflows.argoproj.io/workflow
+          operator: Exists
+  location: "spec.tolerations"
+  parameters:
+    assign:
+      value:
+        - key: dedicated
+          operator: "Equal"
+          value: "workflow"
+---
+apiVersion: mutations.gatekeeper.sh/v1beta1
+kind: Assign
+metadata:
+  name: argo-pool-nodepool-nodeselector
+  namespace: gatekeeper-system
+spec:
+  applyTo:
+    - groups: [""]
+      kinds: ["Pod"]
+      versions: ["v1"]
+  match:
+    labelSelector:
+      matchExpressions:
+        - key: workflows.argoproj.io/workflow
+          operator: Exists
+  location: "spec.nodeSelector"
+  parameters:
+    assign:
+      value:
+        dedicated: workflow
